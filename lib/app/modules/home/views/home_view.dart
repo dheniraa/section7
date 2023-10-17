@@ -3,50 +3,43 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:section7/app/modules/product/views/product_view.dart';
 
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView {
   final List<Map<String, String>> items = [
     {
-      'title': 'Item 1',
+      'title': 'Jacket',
       'description': 'Description 1',
-      'image': 'https://via.placeholder.com/150'
     },
     {
       'title': 'Item 2',
       'description': 'Description 2',
-      'image': 'https://via.placeholder.com/150'
     },
     {
       'title': 'Item 3',
       'description': 'Description 3',
-      'image': 'https://via.placeholder.com/150'
     },
     {
       'title': 'Item 4',
       'description': 'Description 4',
-      'image': 'https://via.placeholder.com/150'
     },
     {
       'title': 'Item 5',
       'description': 'Description 5',
-      'image': 'https://via.placeholder.com/150'
     },
     {
       'title': 'Item 6',
       'description': 'Description 6',
-      'image': 'https://via.placeholder.com/150'
     },
     {
       'title': 'Item 7',
       'description': 'Description 7',
-      'image': 'https://via.placeholder.com/150'
     },
     {
-      'title': 'Item 8',
-      'description': 'Description 8',
-      'image': 'https://via.placeholder.com/150'
+      'title': 'Cotton-gabardine trench cape',
+      'description': '900',
     },
   ];
 
@@ -60,6 +53,11 @@ class HomeView extends GetView {
     'assets/images/7.png',
     'assets/images/8.png',
   ];
+
+  // void onContainerClicked(String title) {
+  //   // Navigasi ke halaman produk dengan judul sebagai argumen
+  //   Get.to(ProductView(title: title));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -128,30 +126,40 @@ class HomeView extends GetView {
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
                 ),
+                // itemBuilder: (context, index) => GestureDetector(
+                //   onTap: () {
+                //     onContainerClicked(items[index]['title']);
+                //   },
                 itemBuilder: (context, index) => Container(
-                  color: Color.fromARGB(
-                    255,
-                    60 + Random().nextInt(151),
-                    60 + Random().nextInt(151),
-                    60 + Random().nextInt(151),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 3,
+                        offset: Offset(1, 3), // changes position of shadow
+                      ),
+                    ],
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
                         imagePaths[index % imagePaths.length],
-                        height: 80,
-                        width: 80,
+                        height: 100,
+                        width: 100,
                       ),
                       SizedBox(height: 10),
                       Text(
                         items[index]['title'],
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                       SizedBox(height: 5),
                       Text(
                         items[index]['description'],
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        style: TextStyle(color: Colors.black, fontSize: 12),
                       ),
                     ],
                   ),
@@ -159,6 +167,7 @@ class HomeView extends GetView {
               ),
             ),
           ),
+          // ),
         ],
       ),
     );
