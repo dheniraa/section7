@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:section7/app/modules/product/views/product_view.dart';
 
@@ -53,11 +52,6 @@ class HomeView extends GetView {
     'assets/images/7.png',
     'assets/images/8.png',
   ];
-
-  // void onContainerClicked(String title) {
-  //   // Navigasi ke halaman produk dengan judul sebagai argumen
-  //   Get.to(ProductView(title: title));
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -126,50 +120,83 @@ class HomeView extends GetView {
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
                 ),
-                // itemBuilder: (context, index) => GestureDetector(
-                //   onTap: () {
-                //     onContainerClicked(items[index]['title']);
-                //   },
-                itemBuilder: (context, index) => Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 3,
-                        offset: Offset(1, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        imagePaths[index % imagePaths.length],
-                        height: 100,
-                        width: 100,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        items[index]['title'],
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        items[index]['description'],
-                        style: TextStyle(color: Colors.black, fontSize: 12),
-                      ),
-                    ],
+                itemBuilder: (context, index) => GestureDetector(
+                  // onTap: () {
+                  //   Get.to(ProductView(title: items[index]['title']));
+                  // },
+                  child: Container(
+                    height: 300,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 3,
+                          offset: Offset(1, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          imagePaths[index % imagePaths.length],
+                          height: 100,
+                          width: 100,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          items[index]['title'],
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          items[index]['description'],
+                          style: TextStyle(color: Colors.black, fontSize: 12),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-          // ),
         ],
       ),
+      floatingActionButton: Container(
+        padding: EdgeInsets.only(right: 5),
+        child: SizedBox(
+          width: 190,
+          height: 40,
+          child: ElevatedButton(
+            onPressed: () {
+              // Aksi ketika tombol "Add New Product" ditekan
+              // Contoh: Navigasi ke halaman tambah produk
+              // Get.to(AddProductView());
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Add New Product',
+                  style: TextStyle(fontSize: 15),
+                ),
+                SizedBox(width: 5),
+                Icon(Icons.add_circle_outline_outlined),
+              ],
+            ),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.purple,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
