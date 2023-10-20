@@ -16,7 +16,7 @@ class AddProductView extends GetView<AddProductController> {
           children: [
             // Image.asset('assets/logo.png'),
             Text(
-              'Fake Shop',
+              'Fake Store',
               style:
                   TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),
             ),
