@@ -19,12 +19,12 @@ class AddProductView extends GetView<AddProductController> {
   final TextEditingController productDescriptionController =
       TextEditingController();
 
-  File? image;
+  RxString image ="".obs;
   
   Future getImage() async{
     final ImagePicker _picker= ImagePicker();
-    final XFile? imagePicked = await _picker.pickImage(source: ImageSource.gallery);
-    image = File(imagePicked!.path);
+    final XFile imagePicked = await _picker.pickImage(source: ImageSource.gallery);
+    image.value = imagePicked!.path;
   } 
 
   @override
@@ -50,36 +50,38 @@ class AddProductView extends GetView<AddProductController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Card(
-              child: Container(
-                width: 350,
-                height: 200,
-                margin: EdgeInsets.only(top: 10),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(blurRadius: 2, color: Colors.grey)
-                    ]),
-                child: Image.asset(
-                  'assets/images/form.png',
-                  fit: BoxFit.cover,
+                child: Container(
+                 child: image.value !="" ? Container(child: Image.file(File(image ??""))) : Container(),
+                  width: 350,
+                  height: 200,
+                  margin: EdgeInsets.only(top: 10),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(blurRadius: 2, color: Colors.grey)
+                      ]),
+                  child: Image.asset(
+                    'assets/images/form.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
             SizedBox(height: 20),
             SizedBox(
               width: 160,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async{
+                  await getImage();
+                },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(
                         color: Colors.purple,
-                        width:
-                            1), // Berikan OutlineInputBorder dengan warna ungu
+                        width: 1),
                   ),
                 ),
                 child: Row(
