@@ -1,13 +1,35 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import 'package:image_picker/image_picker.dart';
+
 import '../controllers/add_product_controller.dart';
 
 class AddProductView extends GetView<AddProductController> {
-  const AddProductView({Key key}) : super(key: key);
+  AddProductView({Key key}) : super(key: key);
+
+  final AddProductController formController = Get.put(AddProductController());
+  final TextEditingController productNameController = TextEditingController();
+  final TextEditingController productCategoryController =
+      TextEditingController();
+  final TextEditingController productPriceController = TextEditingController();
+  final TextEditingController productDescriptionController =
+      TextEditingController();
+
+  File? image;
+  
+  Future getImage() async{
+    final ImagePicker _picker= ImagePicker();
+    final XFile? imagePicked = await _picker.pickImage(source: ImageSource.gallery);
+    image = File(imagePicked!.path);
+  } 
+
   @override
   Widget build(BuildContext context) {
+    // controller.modelToController(product);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -23,16 +45,24 @@ class AddProductView extends GetView<AddProductController> {
           ],
         ),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Card(
               child: Container(
-                width: 150,
-                height: 150,
+                width: 350,
+                height: 200,
+                margin: EdgeInsets.only(top: 10),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(blurRadius: 2, color: Colors.grey)
+                    ]),
                 child: Image.asset(
-                  'assets/form.png',
+                  'assets/images/form.png',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -46,6 +76,10 @@ class AddProductView extends GetView<AddProductController> {
                   primary: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(
+                        color: Colors.purple,
+                        width:
+                            1), // Berikan OutlineInputBorder dengan warna ungu
                   ),
                 ),
                 child: Row(
@@ -104,7 +138,9 @@ class AddProductView extends GetView<AddProductController> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: TextField(
+                          controller: productCategoryController,
                           decoration: InputDecoration(
+                            suffixIcon: Icon(Icons.arrow_drop_down_rounded),
                             hintText: "Category",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
@@ -152,20 +188,22 @@ class AddProductView extends GetView<AddProductController> {
               ),
             ),
             SizedBox(height: 20),
-            SizedBox(
-              width: 150,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.purple,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+            Container(
+              child: SizedBox(
+                width: 150,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.purple,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
                   ),
-                ),
-                child: Text(
-                  'Submit',
-                  style: TextStyle(
-                    color: Colors.white,
+                  child: Text(
+                    'Submit',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

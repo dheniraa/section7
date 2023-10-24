@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:section7/app/data/product_model.dart';
+import '../../../routes/app_pages.dart';
 
-import '../controllers/product_controller.dart';
+class ProductView extends StatelessWidget {
+  final Product product;
 
-class ProductView extends GetView<ProductController> {
-  const ProductView({Key key}) : super(key: key);
+  ProductView({Key key, this.product}) : super(key: key);
+
+  Product displayProduct = Get.arguments ?? Product();
 
   @override
   Widget build(BuildContext context) {
@@ -32,52 +35,95 @@ class ProductView extends GetView<ProductController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Card(
-                  child: Container(
-                    height: 200,
-                    child: Image.asset(
-                      'assets/images/8.png',
-                      fit: BoxFit.cover,
+                  child: Center(
+                    child: Container(
+                      height: 200,
+                      child: Image.asset(
+                        displayProduct.image,
+                        width: 200,
+                        height: 200,
+                      ),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Cotton-gabardine trench cape',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    displayProduct.title,
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Row(
                   children: List.generate(5, (index) {
-                    return Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    );
+                    if (index < 4) {
+                      return Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                        size: 20,
+                      );
+                    } else {
+                      return Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                            size: 20,
+                          ),
+                          Text(
+                            "${displayProduct.rating}",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      );
+                    }
                   }),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    '\$100',
+                    "\$${displayProduct.price.toString()}",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Jacket',
+                    'Product Details',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "${displayProduct.description}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                SizedBox(height: 10),
                 SizedBox(
-                  width: 200,
+                  width: 175,
                   child: ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.sell),
-                    label: Text("Women"),
+                    icon: Icon(
+                      Icons.sell,
+                      size: 19,
+                      color: Colors.purple,
+                    ),
+                    label: Text(
+                      "${displayProduct.category}",
+                      style: TextStyle(color: Colors.purple),
+                    ),
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
+                      side: BorderSide(color: Colors.purple, width: 0.8),
                     ),
                   ),
                 ),
@@ -94,7 +140,7 @@ class ProductView extends GetView<ProductController> {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Implementasi dialog di sini
+                        Get.toNamed(Routes.ADD_PRODUCT, arguments: product);
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Color.fromARGB(217, 255, 255, 1),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:section7/app/modules/product/views/product_view.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -47,9 +48,8 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
               ),
-              SizedBox(width: 10),
               Container(
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsets.only(right: 10),
                 height: 35,
                 width: 90,
                 child: TextField(
@@ -79,49 +79,81 @@ class HomeView extends GetView<HomeController> {
                 ),
                 itemBuilder: (context, index) {
                   final product = homeController.products[index];
-                  return Container(
-                    width: 100,
-                    height: 300,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 3,
-                          spreadRadius: 1,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          child: Image.asset(product.image ?? ''),
-                          height: 100,
-                          width: 100,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            product.title ?? '',
-                            style: TextStyle(overflow: TextOverflow.ellipsis),
+                  return GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.PRODUCT,
+                          arguments: controller.products[index]);
+                    },
+                    child: Container(
+                      width: 100,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 3,
+                            spreadRadius: 1,
+                            offset: Offset(0, 3),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            product.description ?? '',
-                            style: TextStyle(overflow: TextOverflow.ellipsis),
-                            maxLines: 2,
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Container(
+                              child: Image.asset(product.image ?? ''),
+                              height: 100,
+                              width: 100,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                              "\$${product.price?.toStringAsFixed(2) ?? 0}"),
-                        ),
-                      ],
+                          SizedBox(height: 10),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                product.title ?? '',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                product.description ?? '',
+                                style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  // maxLines: 2,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                "\$${product.price?.toStringAsFixed(2) ?? 0}",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -137,7 +169,7 @@ class HomeView extends GetView<HomeController> {
           height: 40,
           child: ElevatedButton(
             onPressed: () {
-              // Get.to(AddProductView());
+              Get.toNamed(Routes.ADD_PRODUCT);
             },
             child: Row(
               mainAxisSize: MainAxisSize.min,

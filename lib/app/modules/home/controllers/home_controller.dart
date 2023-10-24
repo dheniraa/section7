@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:section7/app/data/product_model.dart';
 
 class HomeController extends GetxController {
   var products = <Product>[].obs;
@@ -11,57 +12,57 @@ class HomeController extends GetxController {
       Product(
           id: 1,
           title: "Cool blue white jackets",
-          price: 900,
+          price: 350,
           description:
               "Polyvore featuring outerwear, jackets, capes, coats, trench cape, brown trench coat, trench coat cape, brown cape and burberry trenchcoat",
-          category: "women's",
+          category: "Men's jackets",
           image: "assets/images/1.png",
-          rating: Rating(rate: 4.0, count: 23)),
+          rating: Rating(rate: 4.0, count: 70)),
       Product(
           id: 2,
-          title: "Cool blue white jackets",
-          price: 900,
+          title: "Black and white jackets",
+          price: 350,
           description:
               "Polyvore featuring outerwear, jackets, capes, coats, trench cape, brown trench coat, trench coat cape, brown cape and burberry trenchcoat",
-          category: "women's",
+          category: "Men's jackets",
           image: "assets/images/2.png",
-          rating: Rating(rate: 4.0, count: 23)),
+          rating: Rating(rate: 4.0, count: 90)),
       Product(
           id: 3,
-          title: "Cool blue white jackets",
-          price: 900,
+          title: "Beige and black jackets",
+          price: 950,
           description:
               "Polyvore featuring outerwear, jackets, capes, coats, trench cape, brown trench coat, trench coat cape, brown cape and burberry trenchcoat",
-          category: "women's",
+          category: "Women's jackets",
           image: "assets/images/3.png",
-          rating: Rating(rate: 4.0, count: 23)),
+          rating: Rating(rate: 4.0, count: 50)),
       Product(
           id: 4,
-          title: "Cool blue white jackets",
-          price: 900,
+          title: "Black jackets",
+          price: 800,
           description:
               "Polyvore featuring outerwear, jackets, capes, coats, trench cape, brown trench coat, trench coat cape, brown cape and burberry trenchcoat",
-          category: "women's",
+          category: "Women's jackets",
           image: "assets/images/4.png",
-          rating: Rating(rate: 4.0, count: 23)),
+          rating: Rating(rate: 4.0, count: 65)),
       Product(
           id: 5,
-          title: "Cool blue white jackets",
-          price: 900,
+          title: "Black white jackets",
+          price: 600,
           description:
               "Polyvore featuring outerwear, jackets, capes, coats, trench cape, brown trench coat, trench coat cape, brown cape and burberry trenchcoat",
-          category: "women's",
+          category: "Women's jackets",
           image: "assets/images/5.png",
-          rating: Rating(rate: 4.0, count: 23)),
+          rating: Rating(rate: 4.0, count: 54)),
       Product(
           id: 6,
-          title: "Cool blue white jackets",
+          title: "Brown jackets",
           price: 900,
           description:
               "Polyvore featuring outerwear, jackets, capes, coats, trench cape, brown trench coat, trench coat cape, brown cape and burberry trenchcoat",
-          category: "women's",
+          category: "Women's jackets",
           image: "assets/images/6.png",
-          rating: Rating(rate: 4.0, count: 23)),
+          rating: Rating(rate: 4.0, count: 44)),
     ]);
   }
 
@@ -76,34 +77,4 @@ class HomeController extends GetxController {
   }
 
   void increment() => count.value++;
-}
-
-class Product {
-  int id;
-  String title;
-  double price;
-  String description;
-  String category;
-  String image;
-  Rating rating;
-
-  Product({
-    this.id,
-    this.title,
-    this.price,
-    this.description,
-    this.category,
-    this.image,
-    this.rating,
-  });
-}
-
-class Rating {
-  double rate;
-  int count;
-
-  Rating({
-    this.rate,
-    this.count,
-  });
 }
