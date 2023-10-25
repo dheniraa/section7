@@ -14,7 +14,7 @@ class HomeController extends GetxController {
 
   Future<void> deleteUser(Product product) async {
     try {
-      await serviceApi.deleteProduct(Product.id.toString());
+      await serviceApi.deleteProduct(product.id.toString());
       Get.snackbar('Success', 'Product berhasil dihapus');
     } catch (e) {
       print(e);

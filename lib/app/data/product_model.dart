@@ -1,11 +1,11 @@
 class Product {
-  int id;
-  String title;
-  double price;
-  String description;
-  String category;
-  String image;
-  Rating rating;
+  int? id;
+  String? title;
+  double? price;
+  String? description;
+  String? category;
+  String? image;
+  Rating? rating;
 
   Product({
     this.id,
@@ -42,8 +42,8 @@ class Product {
 }
 
 class Rating {
-  double rate;
-  int count;
+  double? rate;
+  int? count;
 
   Rating({
     this.rate,

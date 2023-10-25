@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import '../controllers/add_product_controller.dart';
 
 class AddProductView extends GetView<AddProductController> {
-  AddProductView({Key key}) : super(key: key);
+  AddProductView({Key? key}) : super(key: key);
 
   final AddProductController formController = Get.put(AddProductController());
   final TextEditingController productNameController = TextEditingController();
@@ -19,13 +19,18 @@ class AddProductView extends GetView<AddProductController> {
   final TextEditingController productDescriptionController =
       TextEditingController();
 
-  RxString image ="".obs;
-  
-  Future getImage() async{
-    final ImagePicker _picker= ImagePicker();
-    final XFile imagePicked = await _picker.pickImage(source: ImageSource.gallery);
-    image.value = imagePicked!.path;
-  } 
+  RxString image = "".obs;
+
+  Future getImage() async {
+    final ImagePicker picker = ImagePicker();
+    XFile? image;
+    var path = ''.obs;
+
+    Future<void> selectImage() async {
+      image = await picker.pickImage(source: ImageSource.gallery);
+      if (image != null) path.value = image!.path;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,38 +55,39 @@ class AddProductView extends GetView<AddProductController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Card(
-                child: Container(
-                 child: image.value !="" ? Container(child: Image.file(File(image ??""))) : Container(),
-                  width: 350,
-                  height: 200,
-                  margin: EdgeInsets.only(top: 10),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(blurRadius: 2, color: Colors.grey)
-                      ]),
-                  child: Image.asset(
-                    'assets/images/form.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              child: Container(
+                child: image.value != ""
+                    ? Container(child: Image.file(File(image.value ?? "")))
+                    : Container(
+                        child: Image.asset(
+                          'assets/images/form.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                width: 350,
+                height: 200,
+                margin: EdgeInsets.only(top: 10),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(blurRadius: 2, color: Colors.grey)
+                    ]),
               ),
+            ),
             SizedBox(height: 20),
             SizedBox(
               width: 160,
               child: ElevatedButton(
-                onPressed: () async{
+                onPressed: () async {
                   await getImage();
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(
-                        color: Colors.purple,
-                        width: 1),
+                    side: BorderSide(color: Colors.purple, width: 1),
                   ),
                 ),
                 child: Row(

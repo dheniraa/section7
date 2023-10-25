@@ -4,9 +4,7 @@ import 'package:section7/app/data/product_model.dart';
 import '../../../routes/app_pages.dart';
 
 class ProductView extends StatelessWidget {
-  final Product product;
-
-  ProductView({Key key, this.product}) : super(key: key);
+  ProductView({Key? key}) : super(key: key);
 
   Product displayProduct = Get.arguments ?? Product();
 
@@ -39,7 +37,7 @@ class ProductView extends StatelessWidget {
                     child: Container(
                       height: 200,
                       child: Image.asset(
-                        displayProduct.image,
+                        "displayProduct.image",
                         width: 200,
                         height: 200,
                       ),
@@ -49,7 +47,7 @@ class ProductView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    displayProduct.title,
+                    "displayProduct.title",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -140,7 +138,8 @@ class ProductView extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        Get.toNamed(Routes.ADD_PRODUCT, arguments: product);
+                        Get.toNamed(Routes.ADD_PRODUCT,
+                            arguments: displayProduct);
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Color.fromARGB(217, 255, 255, 1),
