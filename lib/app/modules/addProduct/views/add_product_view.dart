@@ -5,36 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:section7/app/data/product_model.dart';
 
 import '../controllers/add_product_controller.dart';
 
 class AddProductView extends GetView<AddProductController> {
   AddProductView({Key? key}) : super(key: key);
+  Product displayProduct = Get.arguments ?? Product();
 
   final AddProductController formController = Get.put(AddProductController());
-  final TextEditingController productNameController = TextEditingController();
-  final TextEditingController productCategoryController =
-      TextEditingController();
-  final TextEditingController productPriceController = TextEditingController();
-  final TextEditingController productDescriptionController =
-      TextEditingController();
-
-  RxString image = "".obs;
-
-  Future getImage() async {
-    final ImagePicker picker = ImagePicker();
-    XFile? image;
-    var path = ''.obs;
-
-    Future<void> selectImage() async {
-      image = await picker.pickImage(source: ImageSource.gallery);
-      if (image != null) path.value = image!.path;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    // controller.modelToController(product);
+    controller.modelToController(displayProduct);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -51,13 +34,15 @@ class AddProductView extends GetView<AddProductController> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
+          child: Obx(
+        () => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Card(
               child: Container(
-                child: image.value != ""
-                    ? Container(child: Image.file(File(image.value ?? "")))
+                child: controller.imagePath.value != ""
+                    ? Container(
+                        child: Image.file(File(controller.imagePath.value)))
                     : Container(
                         child: Image.asset(
                           'assets/images/form.png',
@@ -81,7 +66,7 @@ class AddProductView extends GetView<AddProductController> {
               width: 160,
               child: ElevatedButton(
                 onPressed: () async {
-                  await getImage();
+                  await controller.selectImage();
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
@@ -109,26 +94,26 @@ class AddProductView extends GetView<AddProductController> {
               ),
             ),
             SizedBox(height: 20),
-            Card(
-              child: Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Text(
-                      'Product Information',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    SizedBox(
-                      height: 45,
-                      child: Padding(
+            SingleChildScrollView(
+              child: Card(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Product Information',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                      SizedBox(
+                        height: 18,
+                      ),
+                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: TextField(
+                        child: TextFormField(
+                          controller: controller.titleC,
                           decoration: InputDecoration(
                             hintText: "Product Name",
                             border: OutlineInputBorder(
@@ -137,16 +122,13 @@ class AddProductView extends GetView<AddProductController> {
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    SizedBox(
-                      height: 45,
-                      child: Padding(
+                      SizedBox(
+                        height: 18,
+                      ),
+                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: TextField(
-                          controller: productCategoryController,
+                        child: TextFormField(
+                          controller: controller.categoryC,
                           decoration: InputDecoration(
                             suffixIcon: Icon(Icons.arrow_drop_down_rounded),
                             hintText: "Category",
@@ -156,15 +138,13 @@ class AddProductView extends GetView<AddProductController> {
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    SizedBox(
-                      height: 45,
-                      child: Padding(
+                      SizedBox(
+                        height: 18,
+                      ),
+                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: TextField(
+                        child: TextFormField(
+                          controller: controller.priceC,
                           decoration: InputDecoration(
                             hintText: "Price",
                             border: OutlineInputBorder(
@@ -173,25 +153,33 @@ class AddProductView extends GetView<AddProductController> {
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    SizedBox(
-                      height: 45,
-                      child: Padding(
+                      SizedBox(
+                        height: 18,
+                      ),
+                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: TextField(
+                        child: TextFormField(
+                          maxLines: null,
+                          keyboardType: TextInputType.multiline,
+                          textInputAction: TextInputAction.newline,
+                          controller: controller.descriptionC,
                           decoration: InputDecoration(
-                            hintText: "Description",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
+                              isCollapsed: true,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 17),
+                              labelText: "Description",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xff802c6e)),
+                                borderRadius: BorderRadius.circular(10),
+                              )),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -218,7 +206,7 @@ class AddProductView extends GetView<AddProductController> {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }

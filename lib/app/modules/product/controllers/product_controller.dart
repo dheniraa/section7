@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import '../../../data/product_model.dart';
 import '../../../data/service_api.dart';
 
-class HomeController extends GetxController {
+class ProductController extends GetxController {
+  //TODO: Implement ProductController
+
   RxList<Product> listProduct = <Product>[].obs;
 
   final ServiceApi serviceApi = ServiceApi();
@@ -20,26 +22,4 @@ class HomeController extends GetxController {
       print(e);
     }
   }
-}
-
-class ProductController extends GetxController {
-  //TODO: Implement ProductController
-
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

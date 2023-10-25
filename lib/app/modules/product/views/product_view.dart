@@ -37,7 +37,7 @@ class ProductView extends StatelessWidget {
                     child: Container(
                       height: 200,
                       child: Image.asset(
-                        "displayProduct.image",
+                        displayProduct.image ?? '',
                         width: 200,
                         height: 200,
                       ),
@@ -47,7 +47,7 @@ class ProductView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "displayProduct.title",
+                    displayProduct.title ?? '',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),

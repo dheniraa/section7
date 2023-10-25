@@ -1,9 +1,17 @@
 import 'package:get/get.dart';
 import 'package:section7/app/data/product_model.dart';
+import 'package:section7/app/data/service_api.dart';
 
 class HomeController extends GetxController {
-  var products = <Product>[].obs;
+  RxList<Product> products = <Product>[].obs;
   final count = 0.obs;
+
+  final ServiceApi serviceApi = ServiceApi();
+
+  Future<List<Product>> loadProduct() async {
+    return products.value = await serviceApi.getProduct();
+  }
+
   @override
   void onInit() {
     super.onInit();
