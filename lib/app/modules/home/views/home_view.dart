@@ -18,7 +18,7 @@ class HomeView extends GetView<HomeController> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Image.asset('assets/logo.png'),
+            // Image.network('assets/logo.png'),
             Text(
               'Fake Store',
               style:
@@ -76,100 +76,120 @@ class HomeView extends GetView<HomeController> {
                     ? Center(child: CircularProgressIndicator())
                     : Container(
                         child: GridView.builder(
-                          key: UniqueKey(),
-                          itemCount: homeController.products.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10.0,
-                            mainAxisSpacing: 10.0,
-                          ),
-                          itemBuilder: (context, index) {
-                            final product = homeController.products[index];
-                            return GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.PRODUCT,
-                                    arguments: controller.products[index]);
-                              },
-                              child: Container(
-                                width: 100,
-                                height: 300,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 3,
-                                      spreadRadius: 1,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Center(
-                                      child: Container(
-                                        child: Image.asset(product.image ?? ''),
-                                        height: 100,
-                                        width: 100,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          product.title ?? '',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          product.description ?? '',
-                                          style: TextStyle(
-                                            overflow: TextOverflow.ellipsis,
-                                            // maxLines: 2,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          "\$${product.price?.toStringAsFixed(2) ?? 0}",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
+                        key: UniqueKey(),
+                        itemCount: controller.products.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
                         ),
-                      ),
+                        itemBuilder: (context, index) {
+                          final product = homeController.products[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.PRODUCT,
+                                  arguments: controller.products[index]);
+                            },
+                            child: Container(
+                              width: 100,
+                              height: 300,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey,
+                                    blurRadius: 3,
+                                    spreadRadius: 1,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Stack(
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Center(
+                                        child: Container(
+                                          child: Image.network(
+                                              product.image ?? ''),
+                                          height: 100,
+                                          width: 100,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            product.title ?? '',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            product.description ?? '',
+                                            style: TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              // maxLines: 2,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            "\$${product.price?.toStringAsFixed(2) ?? 0}",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Positioned(
+                                    bottom: 5,
+                                    right: 5,
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.star,
+                                            color: Colors.amber, size: 17),
+                                        SizedBox(width: 2),
+                                        Text(
+                                            product.rating?.rate
+                                                    ?.toStringAsFixed(1) ??
+                                                '',
+                                            style: TextStyle(fontSize: 13)),
+                                        SizedBox(width: 10),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      )),
               ),
             ),
           ),

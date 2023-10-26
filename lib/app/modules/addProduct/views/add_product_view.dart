@@ -13,6 +13,8 @@ class AddProductView extends GetView<AddProductController> {
   AddProductView({Key? key}) : super(key: key);
   Product displayProduct = Get.arguments ?? Product();
 
+  final GlobalKey<FormState> formKey = GlobalKey();
+
   final AddProductController formController = Get.put(AddProductController());
 
   @override
@@ -115,11 +117,15 @@ class AddProductView extends GetView<AddProductController> {
                         child: TextFormField(
                           controller: controller.titleC,
                           decoration: InputDecoration(
-                            hintText: "Product Name",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
+                              labelText: "Product Name",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xff802c6e)),
+                                borderRadius: BorderRadius.circular(10),
+                              )),
                         ),
                       ),
                       SizedBox(
@@ -130,12 +136,16 @@ class AddProductView extends GetView<AddProductController> {
                         child: TextFormField(
                           controller: controller.categoryC,
                           decoration: InputDecoration(
-                            suffixIcon: Icon(Icons.arrow_drop_down_rounded),
-                            hintText: "Category",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
+                              labelText: "Category",
+                              suffixIcon: Icon(Icons.arrow_drop_down_rounded),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xff802c6e)),
+                                borderRadius: BorderRadius.circular(10),
+                              )),
                         ),
                       ),
                       SizedBox(
@@ -145,19 +155,24 @@ class AddProductView extends GetView<AddProductController> {
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: TextFormField(
                           controller: controller.priceC,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: "Price",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
+                              labelText: "Price",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xff802c6e)),
+                                borderRadius: BorderRadius.circular(10),
+                              )),
                         ),
                       ),
                       SizedBox(
                         height: 18,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
                         child: TextFormField(
                           maxLines: null,
                           keyboardType: TextInputType.multiline,
@@ -188,7 +203,12 @@ class AddProductView extends GetView<AddProductController> {
               child: SizedBox(
                 width: 150,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    formKey.currentState?.validate() == true
+                        ? await controller.storeProduct(displayProduct,
+                            (displayProduct.id != null) ? true : false)
+                        : Get.snackbar('Error', 'Data tidak valid');
+                  },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.purple,
                     shape: RoundedRectangleBorder(

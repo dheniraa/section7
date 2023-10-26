@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:section7/app/data/product_model.dart';
+import 'package:section7/app/modules/product/controllers/product_controller.dart';
 import '../../../routes/app_pages.dart';
 
-class ProductView extends StatelessWidget {
+class ProductView extends GetView<ProductController> {
   ProductView({Key? key}) : super(key: key);
 
   Product displayProduct = Get.arguments ?? Product();
@@ -27,217 +28,248 @@ class ProductView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Card(
-                  child: Center(
-                    child: Container(
-                      height: 200,
-                      child: Image.asset(
-                        displayProduct.image ?? '',
-                        width: 200,
-                        height: 200,
-                      ),
-                    ),
+            Card(
+              child: Center(
+                child: Container(
+                  height: 200,
+                  child: Image.network(
+                    displayProduct.image ?? '',
+                    width: 200,
+                    height: 200,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    displayProduct.title ?? '',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Row(
-                  children: List.generate(5, (index) {
-                    if (index < 4) {
-                      return Icon(
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                displayProduct.title ?? '',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Row(
+              children: List.generate(5, (index) {
+                if (index < 4) {
+                  return Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                    size: 20,
+                  );
+                } else {
+                  return Row(
+                    children: [
+                      Icon(
                         Icons.star,
                         color: Colors.amber,
                         size: 20,
-                      );
-                    } else {
-                      return Row(
-                        children: [
-                          Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                            size: 20,
-                          ),
-                          Text(
-                            "${displayProduct.rating}",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      );
-                    }
-                  }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "\$${displayProduct.price.toString()}",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Product Details',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "${displayProduct.description}",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-                SizedBox(height: 10),
-                SizedBox(
-                  width: 175,
-                  child: ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.sell,
-                      size: 19,
-                      color: Colors.purple,
-                    ),
-                    label: Text(
-                      "${displayProduct.category}",
-                      style: TextStyle(color: Colors.purple),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
                       ),
-                      side: BorderSide(color: Colors.purple, width: 0.8),
-                    ),
-                  ),
-                ),
-                Spacer(),
-              ],
+                      SizedBox(width: 5),
+                      Text(
+                        displayProduct.rating?.rate?.toStringAsFixed(1) ?? '',
+                      ),
+                      SizedBox(width: 3),
+                      Text(
+                        "|",
+                      ),
+                      SizedBox(width: 3),
+                      Text(
+                        displayProduct.rating?.count?.toStringAsFixed(1) ?? '',
+                      ),
+                    ],
+                  );
+                }
+              }),
             ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed(Routes.ADD_PRODUCT,
-                            arguments: displayProduct);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(217, 255, 255, 1),
-                        shape: CircleBorder(),
-                        minimumSize: Size(50, 50),
-                      ),
-                      child: Icon(Icons.edit, color: Colors.white),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Container(
-                                color: Color.fromARGB(255, 214, 158, 224),
-                                width: double.infinity,
-                                padding: EdgeInsets.all(10),
-                                child: Icon(
-                                  Icons.help_outline_rounded,
-                                  size: 70,
-                                  color: Color.fromARGB(135, 130, 20, 149),
-                                ),
-                              ),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    "Are you sure?",
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    "Do you really want to delete this product? You will not be able to undo this action!",
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        style: TextButton.styleFrom(
-                                          backgroundColor: Colors.purple,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30.0),
-                                          ),
-                                          minimumSize: Size(80, 35),
-                                        ),
-                                        child: Text("No",
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                      ),
-                                      SizedBox(width: 10),
-                                      TextButton(
-                                        onPressed: () {
-                                          // Perform delete operation here
-                                          Navigator.of(context).pop();
-                                        },
-                                        style: TextButton.styleFrom(
-                                          backgroundColor: Colors.purple,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30.0),
-                                          ),
-                                          minimumSize: Size(80, 35),
-                                        ),
-                                        child: Text("Yes",
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 228, 16, 1),
-                        shape: CircleBorder(),
-                        minimumSize: Size(50, 50),
-                      ),
-                      child: Icon(Icons.delete_forever, color: Colors.white),
-                    ),
-                  ),
-                ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "\$${displayProduct.price.toString()}",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Product Details',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "${displayProduct.description}",
+              ),
+            ),
+            SizedBox(height: 10),
+            SizedBox(
+              width: 175,
+              child: ElevatedButton.icon(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.sell,
+                  size: 19,
+                  color: Colors.purple,
+                ),
+                label: Text(
+                  "${displayProduct.category}",
+                  style: TextStyle(color: Colors.purple),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  side: BorderSide(color: Colors.purple, width: 0.8),
+                ),
+              ),
+            ),
+            Spacer(),
           ],
         ),
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton(
+              heroTag: 'edit',
+              onPressed: () {
+                Get.toNamed(Routes.ADD_PRODUCT, arguments: displayProduct);
+              },
+              backgroundColor: Colors.yellow,
+              child: Icon(Icons.edit),
+            ),
+          ),
+          FloatingActionButton(
+            heroTag: 'delete',
+            onPressed: () {
+              Get.dialog(
+                Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Container(
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 110,
+                          decoration: BoxDecoration(
+                            color: Color(0xffF2D2EB),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
+                            ),
+                          ),
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 10),
+                                child: Icon(
+                                  Icons.help_outline,
+                                  size: 100,
+                                  color: Color(0xff802c6e),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 17),
+                            Container(
+                              padding: EdgeInsets.only(left: 30, right: 30),
+                              child: Text(
+                                'Are you sure?',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Color(0xff802c6e),
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Container(
+                              padding: EdgeInsets.only(left: 30, right: 30),
+                              child: Text(
+                                'Do you really want to delete this product? You will not be able to undo this action!',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins Regular',
+                                  color: Color(0xff802c6e),
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                            ButtonBar(
+                              alignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    side: BorderSide(
+                                      color: Color(0xff802c6e),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    fixedSize: Size(100, 15),
+                                  ),
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    'No',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins Regular',
+                                      color: Color(0xff802c6e),
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xff802c6e),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    fixedSize: Size(100, 15),
+                                  ),
+                                  onPressed: () {
+                                    controller.deleteProduct(displayProduct);
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    'Yes',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins Regular',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+            backgroundColor: Colors.red,
+            child: Icon(Icons.delete_forever),
+          ),
+        ],
       ),
     );
   }

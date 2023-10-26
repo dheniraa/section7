@@ -47,7 +47,7 @@ class AddProductController extends GetxController {
     return Product;
   }
 
-  Future storeUser(Product displayproduct, bool isUpdate) async {
+  Future storeProduct(Product displayproduct, bool isUpdate) async {
     try {
       displayproduct = controllerToModel(displayproduct);
       isUpdate == false
