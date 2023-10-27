@@ -17,13 +17,6 @@ class AddProductView extends GetView<AddProductController> {
 
   final AddProductController formController = Get.put(AddProductController());
 
-  List<String> categories = [
-    "electronics",
-    "jewelery",
-    "men's clothing",
-    "women's clothing"
-  ];
-
   @override
   Widget build(BuildContext context) {
     controller.modelToController(displayProduct);
@@ -49,19 +42,19 @@ class AddProductView extends GetView<AddProductController> {
           children: [
             Card(
               child: Container(
-                child:
-                    //displayProduct.image != null
-                    //     ? Container(
-                    //         child: Image.network((displayProduct.image ?? '')))
-                    //:
-                    controller.imagePath.value != ""
-                        ? Container(
-                            child: Image.file(File(controller.imagePath.value)))
-                        : Container(
-                            child: Image.asset(
-                              'assets/images/form.png',
-                              fit: BoxFit.cover,
-                            ),
+                child: controller.imagePath.value.isNotEmpty
+                    ? Image.file(
+                        File((controller.imagePath.value)),
+                        fit: BoxFit.contain,
+                      )
+                    : (displayProduct.image ?? '').isNotEmpty
+                        ? Image.network(
+                            displayProduct.image ?? '',
+                            fit: BoxFit.contain,
+                          )
+                        : Image.asset(
+                            'assets/images/form.png',
+                            fit: BoxFit.cover,
                           ),
                 width: 350,
                 height: 200,
@@ -146,7 +139,12 @@ class AddProductView extends GetView<AddProductController> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: DropdownButtonFormField<String>(
-                          value: controller.categoryC.text,
+                          value: controller.categories.isNotEmpty
+                              ? controller.categories
+                              : '',
+                          onChanged: (String? newValue) {
+                            ({controller.categories = newValue ?? ''});
+                          },
                           decoration: InputDecoration(
                             labelText: "Category",
                             border: OutlineInputBorder(
@@ -157,15 +155,20 @@ class AddProductView extends GetView<AddProductController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          items: categories.map((String category) {
-                            return DropdownMenuItem(
-                              value: category,
-                              child: Text(category),
+                          items: [
+                            "electronics",
+                            "jewelery",
+                            "men's clothing",
+                            "women's clothing",
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value,
+                                  style: const TextStyle(
+                                      fontFamily: 'Poppins Light',
+                                      color: Color(0xff802c6e))),
                             );
                           }).toList(),
-                          onChanged: (value) {
-                            controller.categoryC.text = value ?? '';
-                          },
                         ),
                       ),
                       SizedBox(

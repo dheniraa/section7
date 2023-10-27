@@ -12,6 +12,14 @@ class AddProductController extends GetxController {
   TextEditingController priceC = TextEditingController();
   TextEditingController descriptionC = TextEditingController();
 
+  String categories = "jewelery";
+  final items = [
+    "electronics",
+    "jewelery",
+    "men's clothing",
+    "women's clothing"
+  ];
+
   RxString imagePath = ''.obs;
   final ImagePicker picker = ImagePicker();
   XFile? image;
@@ -32,10 +40,16 @@ class AddProductController extends GetxController {
 
   modelToController(Product displayproduct) {
     titleC.text = displayproduct.title ?? '';
+    if (displayproduct.category != '' && displayproduct.category != null) {
+      categoryC.text = displayproduct.category!;
+    }
     categoryC.text = displayproduct.category ?? '';
+    if (displayproduct.image != '' && displayproduct.image != null) {
+      categoryC.text = displayproduct.category ?? '';
+    }
     priceC.text = (displayproduct.price ?? '').toString();
     descriptionC.text = displayproduct.description ?? '';
-    imagePath.value = displayproduct.image ?? '';
+    // imagePath.value = displayproduct.image ?? '';
   }
 
   controllerToModel(Product displayproduct) {
@@ -44,7 +58,7 @@ class AddProductController extends GetxController {
     displayproduct.price = double.tryParse(priceC.text);
     displayproduct.description = descriptionC.text;
     displayproduct.image = imagePath.value;
-    return Product;
+    return displayproduct;
   }
 
   Future storeProduct(Product displayproduct, bool isUpdate) async {
