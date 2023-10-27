@@ -17,6 +17,13 @@ class AddProductView extends GetView<AddProductController> {
 
   final AddProductController formController = Get.put(AddProductController());
 
+  List<String> categories = [
+    "electronics",
+    "jewelery",
+    "men's clothing",
+    "women's clothing"
+  ];
+
   @override
   Widget build(BuildContext context) {
     controller.modelToController(displayProduct);
@@ -42,15 +49,20 @@ class AddProductView extends GetView<AddProductController> {
           children: [
             Card(
               child: Container(
-                child: controller.imagePath.value != ""
-                    ? Container(
-                        child: Image.file(File(controller.imagePath.value)))
-                    : Container(
-                        child: Image.asset(
-                          'assets/images/form.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                child:
+                    //displayProduct.image != null
+                    //     ? Container(
+                    //         child: Image.network((displayProduct.image ?? '')))
+                    //:
+                    controller.imagePath.value != ""
+                        ? Container(
+                            child: Image.file(File(controller.imagePath.value)))
+                        : Container(
+                            child: Image.asset(
+                              'assets/images/form.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                 width: 350,
                 height: 200,
                 margin: EdgeInsets.only(top: 10),
@@ -133,19 +145,27 @@ class AddProductView extends GetView<AddProductController> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: TextFormField(
-                          controller: controller.categoryC,
+                        child: DropdownButtonFormField<String>(
+                          value: controller.categoryC.text,
                           decoration: InputDecoration(
-                              labelText: "Category",
-                              suffixIcon: Icon(Icons.arrow_drop_down_rounded),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xff802c6e)),
-                                borderRadius: BorderRadius.circular(10),
-                              )),
+                            labelText: "Category",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xff802c6e)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          items: categories.map((String category) {
+                            return DropdownMenuItem(
+                              value: category,
+                              child: Text(category),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            controller.categoryC.text = value ?? '';
+                          },
                         ),
                       ),
                       SizedBox(

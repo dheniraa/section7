@@ -79,6 +79,7 @@ class HomeView extends GetView<HomeController> {
                         key: UniqueKey(),
                         itemCount: controller.products.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 6 / 8,
                           crossAxisCount: 2,
                           crossAxisSpacing: 10.0,
                           mainAxisSpacing: 10.0,

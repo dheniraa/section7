@@ -51,37 +51,26 @@ class ProductView extends GetView<ProductController> {
               ),
             ),
             Row(
-              children: List.generate(5, (index) {
-                if (index < 4) {
-                  return Icon(
+              children: [
+                for (int i = 0; i < 5; i++)
+                  Icon(
                     Icons.star,
-                    color: Colors.amber,
-                    size: 20,
-                  );
-                } else {
-                  return Row(
-                    children: [
-                      Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                        size: 20,
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        displayProduct.rating?.rate?.toStringAsFixed(1) ?? '',
-                      ),
-                      SizedBox(width: 3),
-                      Text(
-                        "|",
-                      ),
-                      SizedBox(width: 3),
-                      Text(
-                        displayProduct.rating?.count?.toStringAsFixed(1) ?? '',
-                      ),
-                    ],
-                  );
-                }
-              }),
+                    color: i < (displayProduct.rating?.rate ?? 0).floor()
+                        ? Colors.yellow
+                        : Colors.grey,
+                    size: 18,
+                  ),
+                SizedBox(width: 5),
+                Text(
+                  displayProduct.rating?.rate?.toStringAsFixed(1) ?? '',
+                ),
+                SizedBox(width: 3),
+                Text("|"),
+                SizedBox(width: 3),
+                Text(
+                  displayProduct.rating?.count?.toStringAsFixed(1) ?? '',
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
