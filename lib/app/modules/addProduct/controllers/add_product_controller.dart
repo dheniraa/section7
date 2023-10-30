@@ -61,12 +61,13 @@ class AddProductController extends GetxController {
     return displayproduct;
   }
 
-  Future storeProduct(Product displayproduct, bool isUpdate) async {
+  Future<void> storeProduct(Product displayproduct, bool isUpdate) async {
     try {
       displayproduct = controllerToModel(displayproduct);
-      isUpdate == false
+      !isUpdate
           ? await serviceApi.createProduct(displayproduct)
           : await serviceApi.updateProduct(displayproduct);
+
       Get.back();
       Get.snackbar('Success', 'Product berhasil disimpan');
     } catch (e) {
